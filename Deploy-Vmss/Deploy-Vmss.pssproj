@@ -32,7 +32,9 @@
     <Compile Include="add-octoextension-to-vmss.ps1" />
     <Compile Include="add-vmssextension.ps1" />
     <Compile Include="apply-extensions.ps1" />
-    <Compile Include="CSE\Install-WebServerPrerequisites.ps1" />
+    <Compile Include="CSE\configure-webserver.ps1" />
+    <Compile Include="CSE\configure.ps1" />
+    <Compile Include="CSE\install-and-configure-iis.ps1" />
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
     <Compile Include="good\create-vmss-in-web.ps1" />
     <Compile Include="create-vmssconfig.ps1" />

@@ -9,6 +9,7 @@ $pipName = "vmss-pip-web-ws-pri"
 $lbName = "vmss-lb-web-ws-pri"
 $rgWebVmssName = "rg-vmss-web-ws-pri"
 $location = "WestUS"
+$rgVnetName = "rg-vnet-ws-pri"
 $vnetName = "vnet-ws-pri"
 $subnetName = "sn-web-ws-pri"
 $vmssNicConfigName = "nicvmss-web-ws-pri"
@@ -34,21 +35,23 @@ Write-Output "Creating vmss config"
 $vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity 2 -SkuName Standard_B1ms -UpgradePolicyMode Automatic -ErrorAction Stop
 Write-Output "Created vmss config"
 
-$iisExtensionSettings = @{
+$extensionParameters = @{
     "fileUris" = (, 
-		"https://github.com/SMACIO/azdeploy
-    "commandToExecute" = "powershell -ExecutionPolicy Unrestricted -File automate-iis.ps1"
+		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/Install-OctopusDSC.ps1",
+		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-and-configure-iis.ps1",
+		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure.ps1");
+    "commandToExecute" = "powershell -ExecutionPolicy Unrestricted -File configure.ps1"
 }
 
 Write-Output "Adding vmss extension (iis)"
 $vmssConfig | Add-AzureRmVmssExtension `
-	-Name "InstallIISExtension" `
+	-Name "ConfigureWebVMSS" `
 	-Publisher "Microsoft.Compute" `
     -Type "CustomScriptExtension" `
     -TypeHandlerVersion 1.8 `
-    -Setting $iisExtensionSettings `
+    -Setting $extensionParameters `
 	-ErrorAction Stop | Out-Null
-Write-Output "Acced extension"
+Write-Output "Added extension"
 <#
 $octoPublicExtensionSettings = @{
 	OctopusServerUrl = "https://ws-octo-svc.westus.cloudapp.azure.com";
@@ -75,13 +78,15 @@ Write-Output "Got LB"
 Write-Output "Gettting LB Backend Pool"
 $backendPool = Get-AzureRmLoadBalancerBackendAddressPoolConfig -LoadBalancer $loadBalancer -Name "LB-Backend" -ErrorAction Stop
 Write-Output "Got LB Backend Pool"
+
 Write-Output "Gettting LB Inbound NAT Pool"
 $inboundNATPool1 = Get-AzureRmLoadBalancerInboundNatPoolConfig -LoadBalancer $loadBalancer -Name "RDP" -ErrorAction Stop
 Write-Output "Got LB Inbound NAT Pool"
 
 Write-Output "Getting vNet"
-$vnet = Get-AzureRmVirtualNetwork -Name $vnetName -ResourceGroupName $rgNet -ErrorAction Stop
+$vnet = Get-AzureRmVirtualNetwork -Name $vnetName -ResourceGroupName $rgVnetName -ErrorAction Stop
 Write-Output "Got vNet"
+
 Write-Output "Getting Subnet"
 $subnet = Get-AzureRmVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -ErrorAction Stop
 Write-Output "Got Subnet"
