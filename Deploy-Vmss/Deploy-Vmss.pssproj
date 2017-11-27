@@ -1,0 +1,52 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MyApplication</RootNamespace>
+    <AssemblyName>MyApplication</AssemblyName>
+    <Name>Deploy-Vmss</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="azureprofile1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="add-octoextension-to-vmss.ps1" />
+    <Compile Include="add-vmssextension.ps1" />
+    <Compile Include="apply-extensions.ps1" />
+    <Compile Include="CSE\Install-WebServerPrerequisites.ps1" />
+    <Compile Include="CSE\Install-OctopusDSC.ps1" />
+    <Compile Include="good\create-vmss-in-web.ps1" />
+    <Compile Include="create-vmssconfig.ps1" />
+    <Compile Include="good\deploy-vmss-web-lb-config.ps1" />
+    <Compile Include="Deploy-Vmss.ps1" />
+    <Compile Include="get-vms.ps1" />
+    <Compile Include="get-vmss.ps1" />
+    <Compile Include="get-vmssextensions.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="good\" />
+    <Folder Include="CSE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build" />
+  <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
+</Project>
