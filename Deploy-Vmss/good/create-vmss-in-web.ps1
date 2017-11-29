@@ -35,13 +35,7 @@ Write-Output "Creating vmss config"
 $vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity 2 -SkuName Standard_B1ms -UpgradePolicyMode Automatic -ErrorAction Stop
 Write-Output "Created vmss config"
 
-$extensionParameters = @{
-    "fileUris" = (, 
-		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/Install-OctopusDSC.ps1",
-		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-and-configure-iis.ps1",
-		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure.ps1");
-    "commandToExecute" = "powershell -ExecutionPolicy Unrestricted -File configure.ps1"
-}
+;
 
 Write-Output "Adding vmss extension (iis)"
 $vmssConfig | Add-AzureRmVmssExtension `
@@ -61,7 +55,7 @@ $octoPublicExtensionSettings = @{
 	Port = 10933
 }
 
-Write-Output "Adding vmss extension (octo)"
+Write-Ozutput "Adding vmss extension (octo)"
 $vmssConfig | Add-AzureRmVmssExtension `
 	-Name "OctopusDeployWindowsTentacle" `
 	-Publisher "OctopusDeploy.Tentacle" `
@@ -111,6 +105,7 @@ Set-AzureRmVmssOsProfile $vmssConfig -AdminUsername $adminUserName -AdminPasswor
 Write-Output "Set os profile"
 
 # Create the scale set with the config object (this step might take a few minutes)
+Write-Output "Creating the VMSS"
 $vmss = New-AzureRmVmss -ResourceGroupName $rgWebVmssName -Name $vmScaleSetName -VirtualMachineScaleSet $vmssConfig  -ErrorAction Stop
 Write-Output "Created vmss"
 $vmss

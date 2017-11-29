@@ -36,6 +36,7 @@
     <Compile Include="CSE\configure.ps1" />
     <Compile Include="CSE\install-and-configure-iis.ps1" />
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
+    <Compile Include="CSE\install-web-app-with-octo-dsc.ps1" />
     <Compile Include="good\create-vmss-in-web.ps1" />
     <Compile Include="create-vmssconfig.ps1" />
     <Compile Include="good\deploy-vmss-web-lb-config.ps1" />
