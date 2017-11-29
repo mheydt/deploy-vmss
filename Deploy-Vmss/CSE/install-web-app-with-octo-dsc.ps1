@@ -4,7 +4,7 @@
 #
 Configuration SampleConfig
 {
-    param ($ApiKey, $OctopusServerUrl, $Environments, $Roles, $ListenPort)
+    param ($ApiKey, $OctopusServerUrl, $Environments, $Roles, $ServerPort)
 
     Import-DscResource -Module OctopusDSC
 
@@ -15,27 +15,23 @@ Configuration SampleConfig
             Ensure = "Present"
             State = "Started"
 
-			CommunicationMode = "Poll"
-			ListenPort = $ListenPort
-			OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
-
-            # Tentacle instance name. Leave it as 'Tentacle' unless you have more
-            # than one instance
             Name = "Tentacle"
 
-            # Defaults to <MachineName>_<InstanceName> unless overridden
-            DisplayName = "My Tentacle"
+			CommunicationMode = "Poll"
+			ServerPort = $ServerPort
+			OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
 
-            # Required parameters. See full properties list below
             ApiKey = $ApiKey
             OctopusServerUrl = $OctopusServerUrl
             Environments = $Environments
             Roles = $Roles
+
+			DefaultApplicationDirectory = "C:\Applications"
         }
     }
 }
 
-SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ListenPort 10934
+SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10934
 
 Start-DscConfiguration .\SampleConfig -Verbose -wait
 
