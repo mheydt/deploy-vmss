@@ -17,6 +17,7 @@ Configuration SampleConfig
 
 			CommunicationMode = "Poll"
 			ListenPort = $ListenPort
+			OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
 
             # Tentacle instance name. Leave it as 'Tentacle' unless you have more
             # than one instance
