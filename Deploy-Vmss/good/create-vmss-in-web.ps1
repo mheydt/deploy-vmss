@@ -25,6 +25,12 @@ $vmssComputerNamePrefix = "vmssvm"
 
 $vmScaleSetName = "vmss-web-ws-pri"
 
+$certificateUrl = "https://kv-svc-ws-pri.vault.azure.net/secrets/vmssweb/074f55d2dca84489b021291e8e3e64d2"
+$certStore = "MyCerts"
+$vaultName = "kv-svc-ws-pri"
+
+$numberOfInstances = 1
+
 Import-AzureRmContext -Path "C:\dev\Deploy-Vmss\Deploy-Vmss\azureprofile1.json” #| Out-Null
 Write-Host "Successfully logged in using saved profile file" -ForegroundColor Green
   
@@ -32,10 +38,18 @@ Get-AzureRmSubscription –SubscriptionName $subscriptionName | Select-AzureRmSubs
 Write-Host "Set Azure Subscription for session complete"  -ForegroundColor Green
 
 Write-Output "Creating vmss config"
-$vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity 2 -SkuName Standard_B1ms -UpgradePolicyMode Automatic -ErrorAction Stop
+$vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity $numberOfInstances -SkuName Standard_B1ms -UpgradePolicyMode Automatic -ErrorAction Stop
 Write-Output "Created vmss config"
 
- 
+Write-Output "Getting key vault"
+$vault = Get-AzureRmKeyVault -VaultName $vaultName -ErrorAction Stop
+
+Write-Output "Creating VMSS Cert Config"
+$certConfig = New-AzureRmVmssVaultCertificateConfig -CertificateUrl $certificateUrl -CertificateStore $certStore -ErrorAction Stop
+
+Write-Output "Adding cert config to VMSS config"
+Add-AzureRmVmssSecret -VirtualMachineScaleSet $vmssConfig -SourceVaultId $vault.ResourceId -VaultCertificate $certConfig -ErrorAction Stop | Out-Null
+
  $extensionParameters = @{
      "fileUris" = (
  		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/Install-OctopusDSC.ps1",
@@ -44,7 +58,6 @@ Write-Output "Created vmss config"
  		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure.ps1");
      "commandToExecute" = "powershell -ExecutionPolicy Unrestricted -File configure.ps1"
  }
-
 
 Write-Output "Adding vmss extension (iis)"
 $vmssConfig | Add-AzureRmVmssExtension `
@@ -55,25 +68,7 @@ $vmssConfig | Add-AzureRmVmssExtension `
     -Setting $extensionParameters `
 	-ErrorAction Stop | Out-Null
 Write-Output "Added extension"
-<#
-$octoPublicExtensionSettings = @{
-	OctopusServerUrl = "https://ws-octo-svc.westus.cloudapp.azure.com";
-	Environments = @("Env1");
-	Roles = @("web-server");
-	CommunicationsMode = "Polling";
-	Port = 10933
-}
 
-Write-Ozutput "Adding vmss extension (octo)"
-$vmssConfig | Add-AzureRmVmssExtension `
-	-Name "OctopusDeployWindowsTentacle" `
-	-Publisher "OctopusDeploy.Tentacle" `
-    -Type "OctopusDeployWindowsTentacle" `
-    -TypeHandlerVersion 2.0 `
-    -Setting $octoPublicExtensionSettings `
-	-ErrorAction Stop | Out-Null
-Write-Output "Acced extension"
-#>
 Write-Output "Getting LB"
 $loadBalancer = Get-AzureRmLoadBalancer -Name $lbName -ResourceGroupName $rgWebVmssName -ErrorAction Stop
 Write-Output "Got LB"

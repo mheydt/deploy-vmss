@@ -32,7 +32,8 @@
     <Compile Include="add-octoextension-to-vmss.ps1" />
     <Compile Include="add-vmssextension.ps1" />
     <Compile Include="apply-extensions.ps1" />
-    <Compile Include="CSE\configure-webserver.ps1" />
+    <Compile Include="create-ssc-in-kv.ps1" />
+    <Compile Include="CSE\add-certtovm.ps1" />
     <Compile Include="CSE\configure.ps1" />
     <Compile Include="CSE\install-and-configure-iis.ps1" />
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
