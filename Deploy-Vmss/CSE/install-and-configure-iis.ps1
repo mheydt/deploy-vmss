@@ -7,4 +7,4 @@ Install-WindowsFeature Web-Mgmt-Console
 
 Remove-Website "Default Web Site"
 
-Add-Content -Path "C:\inetpub\wwwroot\Default.htm" -Value $($env:computername)
+#Add-Content -Path "C:\inetpub\wwwroot\Default.htm" -Value $($env:computername)
