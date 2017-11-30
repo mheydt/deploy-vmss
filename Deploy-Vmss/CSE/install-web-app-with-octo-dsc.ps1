@@ -27,6 +27,8 @@ Configuration SampleConfig
             Roles = $Roles
 
 			DefaultApplicationDirectory = "C:\Applications"
+
+			Policy = "VMSS Web Policy"
         }
     }
 }
