@@ -19,7 +19,7 @@ Configuration SampleConfig
 
 			CommunicationMode = "Poll"
 			ServerPort = $ServerPort
-			OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
+			#OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
 
             ApiKey = $ApiKey
             OctopusServerUrl = $OctopusServerUrl
@@ -31,7 +31,7 @@ Configuration SampleConfig
     }
 }
 
-SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10934
+SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10943
 
 Start-DscConfiguration .\SampleConfig -Verbose -wait
 
