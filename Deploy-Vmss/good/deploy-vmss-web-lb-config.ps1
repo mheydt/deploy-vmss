@@ -20,6 +20,8 @@ $vmssNicConfigName = "vmssnic-web-ws-pri"
 
 $vmssName = "vmss-web-ws-pri"
 
+$port = 443
+
 Import-AzureRmContext -Path "C:\dev\Deploy-Vmss\Deploy-Vmss\azureprofile1.json” | Out-Null
 Write-Host "Successfully logged in using saved profile file" -ForegroundColor Green
   
@@ -49,10 +51,10 @@ Write-Output "Created front end IP config"
 $backendPool = New-AzureRmLoadBalancerBackendAddressPoolConfig -Name "LB-backend" -ErrorAction Stop
 Write-Output "Created backend pool config"
 
-$probe = New-AzureRmLoadBalancerProbeConfig -Name "HealthProbe" -Protocol Tcp -Port 80 -IntervalInSeconds 15 -ProbeCount 2 -ErrorAction Stop
+$probe = New-AzureRmLoadBalancerProbeConfig -Name "HealthProbe" -Protocol Tcp -Port $port -IntervalInSeconds 15 -ProbeCount 2 -ErrorAction Stop
 Write-Output "Created lb probe config"
 
-$inboundNATRule1= New-AzureRmLoadBalancerRuleConfig -Name "webserver" -FrontendIpConfiguration $frontendIP -Protocol Tcp -FrontendPort 80 -BackendPort 80 -IdleTimeoutInMinutes 15 -Probe $probe -BackendAddressPool $backendPool -ErrorAction Stop
+$inboundNATRule1= New-AzureRmLoadBalancerRuleConfig -Name "webserver" -FrontendIpConfiguration $frontendIP -Protocol Tcp -FrontendPort $port -BackendPort $port -IdleTimeoutInMinutes 15 -Probe $probe -BackendAddressPool $backendPool -ErrorAction Stop
 Write-Output "Created lb web server rule config"
 
 $inboundNATPool1 = New-AzureRmLoadBalancerInboundNatPoolConfig -Name "RDP" -FrontendIpConfigurationId $frontendIP.Id -Protocol TCP -FrontendPortRangeStart 53380 -FrontendPortRangeEnd 53390 -BackendPort 3389 -ErrorAction Stop
