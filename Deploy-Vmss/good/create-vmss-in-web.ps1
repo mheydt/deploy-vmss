@@ -54,6 +54,7 @@ Add-AzureRmVmssSecret -VirtualMachineScaleSet $vmssConfig -SourceVaultId $vault.
      "fileUris" = (
  		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/Install-OctopusDSC.ps1",
  		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-and-configure-iis.ps1",
+ 		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-file-share.ps1",
 		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-web-app-with-octo-dsc.ps1",
  		"https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure.ps1");
      "commandToExecute" = "powershell -ExecutionPolicy Unrestricted -File configure.ps1"
