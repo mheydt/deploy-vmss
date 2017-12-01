@@ -19,14 +19,6 @@ $filesMountDrive = "D"
 
 $Logfile = "D:\Apps\Logs\$(gc env:computername).log"
 
-Function LogWrite
-{
-   Param ([string]$logstring)
-
-   Add-content $Logfile -value $logstring
-}
-
-LogWrite("")
 $acctKey = ConvertTo-SecureString -String $key -AsPlainText -Force
 $credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Azure\$($stgAcctName)", $acctKey
 New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist
