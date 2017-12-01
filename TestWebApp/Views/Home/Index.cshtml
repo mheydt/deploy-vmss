@@ -6,29 +6,33 @@
 
 @model FileViewModel[]
 
+
 <div class="jumbotron">
     <h2>Welcome from the web server on @Environment.MachineName</h2>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        @{ 
+        @{
             foreach (var file in @Model)
             {
-                <div>@Html.ActionLink(file.Name, "Files", "GetFileViaSymLink", file.Name);</div>
+                <div>@Html.ActionLink(file.Name, "GetFileViaSymLink", "Files", new { name = file.Name }, null)</div>
             }
         }
     </div>
     <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
             <div>
                 @Html.TextBox("file", "", new { type = "file" }) <br />
 
-                <button type="submit">Upload</button>
+                @Html.ActionLink("Upload", "UploadFile", "Files", null, new { id = "uploadButton", @class = "btn btn-default", onclick = "return false;" })
 
                 @ViewBag.Message
 
@@ -36,3 +40,11 @@
         }
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#uploadButton').click(function () {
+            $(this).closest('form')[0].submit();
+        });
+    });
+</script>
