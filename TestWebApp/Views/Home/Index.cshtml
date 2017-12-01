@@ -1,6 +1,10 @@
-﻿@{
+﻿@using TestWebApp.Controllers
+
+@{
     ViewBag.Title = "Home Page";
 }
+
+@model FileViewModel[]
 
 <div class="jumbotron">
     <h2>Welcome from the web server on @Environment.MachineName</h2>
@@ -8,22 +12,27 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        @{ 
+            foreach (var file in @Model)
+            {
+                <div>@Html.ActionLink(file.Name, "Files", "GetFileViaSymLink", file.Name);</div>
+            }
+        }
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div>
+                @Html.TextBox("file", "", new { type = "file" }) <br />
+
+                <button type="submit">Upload</button>
+
+                @ViewBag.Message
+
+            </div>
+        }
     </div>
 </div>
