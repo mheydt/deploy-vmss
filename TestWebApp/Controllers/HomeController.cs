@@ -17,9 +17,16 @@ namespace TestWebApp.Controllers
     {
         public ActionResult Index()
         {
-            var files = Directory.GetFiles("c:\\server\\workspace\\client\\files");
-            var vm = files.Select(f => new FileViewModel() { Name = WebUtility.UrlEncode(new FileInfo(f).Name) }).ToArray();
-            return View(vm);
+            try
+            {
+                var files = Directory.GetFiles("c:\\server\\workspace\\client\\files");
+                var vm = files.Select(f => new FileViewModel() { Name = WebUtility.UrlEncode(new FileInfo(f).Name) }).ToArray();
+                return View(vm);
+            }
+            catch (Exception ex)
+            {
+                return View(new FileViewModel[] { });
+            }
         }
 
         public ActionResult About()

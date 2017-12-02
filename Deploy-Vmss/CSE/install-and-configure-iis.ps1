@@ -31,11 +31,14 @@ Try
 	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Azure\$($stgAcctName)", $acctKey
 
 	LogWrite("Mapping drive")
-	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist
+	LogWrite($filesMountDrive)
+	LogWrite("\\$($stgAcctName).file.core.windows.net\$($fileShareName)")
+	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist -Scope Global
 	LogWrite("Mapped drive")
 
 	New-Item $symDirPath -type directory -Force
 	New-Item -ItemType SymbolicLink -Path "$($symDirPath)\$($symDirFolderName)" -Value "$($filesMountDrive):"
+	LogWrite("Created sym link")
 }
 Catch
 {

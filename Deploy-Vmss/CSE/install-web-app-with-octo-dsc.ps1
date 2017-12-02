@@ -19,6 +19,7 @@ Configuration SampleConfig
 
 			CommunicationMode = "Poll"
 			ServerPort = $ServerPort
+			#OctopusServerThumbprint = "E51CABA6C115C3DB0343391E58916AA7BBC5E503"
 
             ApiKey = $ApiKey
             OctopusServerUrl = $OctopusServerUrl
