@@ -28,7 +28,7 @@ LogWrite("Starting map of AZF")
 Try
 {
 	$acctKey = ConvertTo-SecureString -String $key -AsPlainText -Force
-	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Azure\$($stgAcctName)", $acctKey
+	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\$($stgAcctName)", $acctKey
 
 	LogWrite("Mapping drive")
 	LogWrite($filesMountDrive)

@@ -19,16 +19,23 @@ LogWrite("Starting map of AZF")
 Try
 {
 	$acctKey = ConvertTo-SecureString -String $key -AsPlainText -Force
-	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "$Azure\$($stgAcctName)", $acctKey
+	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\$($stgAcctName)", $acctKey
 
 	LogWrite("Mapping drive")
-	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist
+	LogWrite($filesMountDrive)
+	LogWrite("\\$($stgAcctName).file.core.windows.net\$($fileShareName)")
+    Write-Output($filesMountDrive)
+	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist -Scope Global
 	LogWrite("Mapped drive")
 
 	New-Item $symDirPath -type directory -Force
 	New-Item -ItemType SymbolicLink -Path "$($symDirPath)\$($symDirFolderName)" -Value "$($filesMountDrive):"
+	LogWrite("Created sym link")
+
+    cmdkey /add:$stgAcctName.file.core.windows.net /user:AZURE\$stgAcctName /pass:$key
 }
 Catch
 {
 	LogWrite($_.Exception.Message)
 }
+
