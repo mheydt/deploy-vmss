@@ -26,13 +26,22 @@ Try
 	LogWrite("\\$($stgAcctName).file.core.windows.net\$($fileShareName)")
     Write-Output($filesMountDrive)
 	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist -Scope Global
+    Write-Output("mapped drive")
 	LogWrite("Mapped drive")
 
+    Write-Output("Creating sym link")
+    LogWrite("Creating sym link")
 	New-Item $symDirPath -type directory -Force
+    Write-Output("Part 2")
 	New-Item -ItemType SymbolicLink -Path "$($symDirPath)\$($symDirFolderName)" -Value "$($filesMountDrive):"
 	LogWrite("Created sym link")
+    Write-Output("created sym link")
 
+    Write-Output("storing credentials")
+    LogWrite("storing credentials")
     cmdkey /add:$stgAcctName.file.core.windows.net /user:AZURE\$stgAcctName /pass:$key
+    Write-Output("stored credentials")
+    LogWrite("stored credentials")
 }
 Catch
 {
