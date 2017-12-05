@@ -33,7 +33,7 @@
     <Compile Include="old\add-vmssextension.ps1" />
     <Compile Include="old\apply-extensions.ps1" />
     <Compile Include="old\create-ssc-in-kv.ps1" />
-    <Compile Include="CSE\add-certtovm.ps1" />
+    <Compile Include="old\add-certtovm.ps1" />
     <Compile Include="CSE\configure-file-share.ps1" />
     <Compile Include="CSE\configure.ps1" />
     <Compile Include="CSE\install-and-configure-iis.ps1" />
