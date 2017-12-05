@@ -26,13 +26,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="azureprofile1.json" />
+    <None Include="old\azureprofile1.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="add-octoextension-to-vmss.ps1" />
-    <Compile Include="add-vmssextension.ps1" />
-    <Compile Include="apply-extensions.ps1" />
-    <Compile Include="create-ssc-in-kv.ps1" />
+    <Compile Include="old\add-octoextension-to-vmss.ps1" />
+    <Compile Include="old\add-vmssextension.ps1" />
+    <Compile Include="old\apply-extensions.ps1" />
+    <Compile Include="old\create-ssc-in-kv.ps1" />
     <Compile Include="CSE\add-certtovm.ps1" />
     <Compile Include="CSE\configure-file-share.ps1" />
     <Compile Include="CSE\configure.ps1" />
@@ -40,16 +40,17 @@
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
     <Compile Include="CSE\install-web-app-with-octo-dsc.ps1" />
     <Compile Include="good\create-vmss-in-web.ps1" />
-    <Compile Include="create-vmssconfig.ps1" />
+    <Compile Include="old\create-vmssconfig.ps1" />
     <Compile Include="good\deploy-vmss-web-lb-config.ps1" />
-    <Compile Include="Deploy-Vmss.ps1" />
-    <Compile Include="get-vms.ps1" />
-    <Compile Include="get-vmss.ps1" />
-    <Compile Include="get-vmssextensions.ps1" />
+    <Compile Include="old\Deploy-Vmss.ps1" />
+    <Compile Include="old\get-vms.ps1" />
+    <Compile Include="old\get-vmss.ps1" />
+    <Compile Include="old\get-vmssextensions.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="good\" />
     <Folder Include="CSE\" />
+    <Folder Include="old\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

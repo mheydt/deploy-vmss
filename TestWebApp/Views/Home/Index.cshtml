@@ -4,7 +4,7 @@
     ViewBag.Title = "Home Page";
 }
 
-@model FileViewModel[]
+@model FilesViewModel
 
 
 <div class="jumbotron">
@@ -13,33 +13,45 @@
 
 <div class="row">
     <div class="col-md-4">
+        <h2>Via symlink</h2>
         @{
-            foreach (var file in @Model)
+            foreach (var file in @Model.ViaSymlink)
             {
-                <div>@Html.ActionLink(file.Name, "GetFileViaSymLink", "Files", new { name = file.Name }, null)</div>
+                <div>@Html.ActionLink(file.Name, "GetFileViaSymLink", "FilesAccess", new { name = file.Name }, null)</div>
             }
 
-                <div>@ViewBag.FileMessage</div>
+            <div>@ViewBag.Message2</div>
         }
     </div>
     <div class="col-md-4">
-        <div>@ViewBag.ExceptionMessage</div>
+        <h2>Via API</h2>
+        @{
+            foreach (var file in @Model.ViaAPI)
+            {
+                <div>@Html.ActionLink(file.Name, "GetFile", "FilesAccess", new { name = file.Name }, null)</div>
+            }
+
+            <div>@ViewBag.Message1</div>
+        }
+
     </div>
     <div class="col-md-4">
         @using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
-            <div>
-                @Html.TextBox("file", "", new { type = "file" }) <br />
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
+            @Html.CheckBox("useAPI", false)&nbsp;Use API<br/>
 
-                @Html.ActionLink("Upload", "UploadFile", "Files", null, new { id = "uploadButton", @class = "btn btn-default", onclick = "return false;" })
+            @Html.ActionLink("Upload", "UploadFile", "FilesAccess", null, new { id = "uploadButton", @class = "btn btn-default", onclick = "return false;" })
 
-                @ViewBag.Message
+            @ViewBag.Message
 
-            </div>
+        </div>
         }
     </div>
 </div>
+<br/>
 
 <script type="text/javascript">
     $(document).ready(function () {

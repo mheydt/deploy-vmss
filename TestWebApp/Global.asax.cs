@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monitor.Core.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -15,6 +16,7 @@ namespace TestWebApp
     {
         protected void Application_Start()
         {
+            //JunctionPoint.Create(@"c:\server\workspace\client\files", "z:\\", true);
             /*
             try
             {
