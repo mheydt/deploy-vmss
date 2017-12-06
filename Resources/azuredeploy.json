@@ -1,0 +1,147 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "database-server-id": {
+      "type": "string",
+      "defaultValue":  "sql1",
+      "minLength": 1
+    },
+    "db-admin-username": {
+      "type": "string",
+      "defaultValue":  "admin",
+      "minLength": 1
+    },
+    "db-admin-password": {
+      "type": "securestring",
+      "defaultValue": "WorkSpace!DB!2017"
+    },
+    "windowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2016-Datacenter",
+      "allowedValues": [
+        "2016-Datacenter"
+      ]
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "stgdbwspri"
+    },
+    "storageAccountResourceGroup": {
+      "type": "string",
+      "defaultValue": "rg-db-ws-pri"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "vnet-ws-pri"
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "rg-vnet-ws-pri"
+    }},
+  "variables": {
+    "databaseServerName": "[concat(parameters('database-server-id'), '-db-ws-pri')]",
+    "imagePublisher": "MicrosoftWindowsServer",
+    "imageOffer": "WindowsServer",
+    "osDiskName": "osdisk1-sql-ws-pri",
+    "vmSize": "Standard_D1_v2",
+    "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'), '/subnets/', 'sn-db-ws-pri')]",
+    "storageAccountContainerName": "vhds",
+    "nicName": "[concat('nic1-', parameters('database-server-id'), '-db-ws-pri')]"
+  },
+  "resources": [
+    {
+      "name": "[variables('nicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "westus",
+      "apiVersion": "2017-06-01",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "[variables('nicName')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('databaseServerName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "westus",
+      "apiVersion": "2017-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+      ],
+      "tags": {
+        "displayName": "[variables('databaseServerName')]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('databaseServerName')]",
+          "adminUsername": "[parameters('db-admin-username')]",
+          "adminPassword": "[parameters('db-admin-password')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[parameters('windowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "vhd": {
+              "uri": "[concat(reference(resourceId(parameters('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2016-01-01').primaryEndpoints.blob, variables('storageAccountContainerName'), '/', variables('osDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "name": "SetupSQLServerExtension",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2017-03-30",
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "extension": "CustomScriptExtension",
+            "version": "1.8",
+            "autoUpgradeMinorVersion": true,
+            "parameters": {
+              "public": {
+                "fileUris": [
+                  "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1"
+                ]
+              },
+              "private": {
+                "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File configure-sql-server.ps1"
+              }
+            }
+          }
+        }
+      ]
+    }],
+  "outputs": {}
+}

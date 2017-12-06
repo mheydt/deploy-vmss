@@ -7,6 +7,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Deploy-Vmss", "Deploy-Vmss\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{25DDA110-61D8-423F-BC11-068B9E7D6734}"
 EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Resources", "Resources\Resources.deployproj", "{A4C66F66-7A9F-4606-8C99-CDEF15493BEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{25DDA110-61D8-423F-BC11-068B9E7D6734}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25DDA110-61D8-423F-BC11-068B9E7D6734}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25DDA110-61D8-423F-BC11-068B9E7D6734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C66F66-7A9F-4606-8C99-CDEF15493BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C66F66-7A9F-4606-8C99-CDEF15493BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C66F66-7A9F-4606-8C99-CDEF15493BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C66F66-7A9F-4606-8C99-CDEF15493BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

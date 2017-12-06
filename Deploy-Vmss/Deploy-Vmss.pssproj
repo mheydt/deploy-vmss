@@ -29,6 +29,7 @@
     <None Include="old\azureprofile1.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSE\configure-sql-server.ps1" />
     <Compile Include="old\add-octoextension-to-vmss.ps1" />
     <Compile Include="old\add-vmssextension.ps1" />
     <Compile Include="old\apply-extensions.ps1" />
@@ -46,6 +47,7 @@
     <Compile Include="old\get-vms.ps1" />
     <Compile Include="old\get-vmss.ps1" />
     <Compile Include="old\get-vmssextensions.ps1" />
+    <Compile Include="Script1.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="good\" />
