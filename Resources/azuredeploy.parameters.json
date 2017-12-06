@@ -2,14 +2,8 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vm-db1-ws-priName": {
-      "value": "vm-db1-ws-pri"
-    },
-    "vm-db1-ws-priAdminUserName": {
-      "value": "mike"
-    },
-    "vm-db1-ws-priAdminPassword": {
-      "value": "Rush!Anthem!2112"
+    "database-server-id": {
+      "value": "sql1"
     }
   }
 }

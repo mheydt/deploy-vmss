@@ -9,7 +9,7 @@
     },
     "db-admin-username": {
       "type": "string",
-      "defaultValue":  "admin",
+      "defaultValue":  "wsadmin",
       "minLength": 1
     },
     "db-admin-password": {
@@ -120,26 +120,25 @@
       },
       "resources": [
         {
-          "name": "SetupSQLServerExtension",
           "type": "extensions",
-          "location": "[resourceGroup().location]",
+          "name": "SetupSQLServerExtension",
           "apiVersion": "2017-03-30",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[variables('databaseServerName')]"
+          ],
           "properties": {
             "publisher": "Microsoft.Compute",
             "extension": "CustomScriptExtension",
-            "version": "1.8",
+            "typeHandlerVersion": "1.8",
             "autoUpgradeMinorVersion": true,
-            "parameters": {
-              "public": {
+            "settings": {
                 "fileUris": [
                   "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1"
-                ]
-              },
-              "private": {
+                ],
                 "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File configure-sql-server.ps1"
               }
             }
-          }
         }
       ]
     }],
