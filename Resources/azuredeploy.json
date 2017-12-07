@@ -29,7 +29,7 @@
     },
     "storageAccountResourceGroup": {
       "type": "string",
-      "defaultValue": "db2"
+      "defaultValue": "db"
     },
     "virtualNetworkName": {
       "type": "string",

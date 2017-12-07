@@ -1,23 +1,16 @@
 #
-# installsqlserverdsc.ps1
+# install-sqlserverdsc.ps1
 #
-
-Function Write-Log
-{
-   Param ([string]$logstring)
-
-   $Logfile = "c:\install-sqlserverdsc.log"
-   Add-content $Logfile -value $logstring
-} 
 
 try
 {
-	Write-Log("Installing SqlServerDSC")
-	Find-Module -Name SqlServerDsc -Repository PSGallery | Install-Module
-	Write-Log("Installed SqlServerDSC")
+	Write-Log("c:\install-sqlserverdsc.log", "Installing zSqlServer")
+	$module = Find-Module -Name xSqlServer -Repository PSGallery 
+	Install-Module $module
+	Write-Log("c:\install-sqlserverdsc.log", "Installed xSqlServer")
 }
 catch 
 {
-	Write-Log('Exception installing sqlserverdsc')
-	Write-Log($_)
+	Write-Log("c:\install-sqlserverdsc.log", 'Exception installing sqlserverdsc')
+	Write-Log("c:\install-sqlserverdsc.log", $_)
 }
