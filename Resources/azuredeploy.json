@@ -33,11 +33,11 @@
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "vnet-ws-pri"
+      "defaultValue": "vnet-mh-shared"
     },
     "virtualNetworkResourceGroup": {
       "type": "string",
-      "defaultValue": "rg-vnet-ws-pri"
+      "defaultValue": "rg-mh-shared"
     }},
   "variables": {
     "databaseServerName": "[concat(parameters('database-server-id'), '-db-ws-pri')]",
@@ -46,17 +46,45 @@
     "osDiskName": "osdisk1-sql-ws-pri",
     "vmSize": "Standard_D1_v2",
     "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'), '/subnets/', 'sn-db-ws-pri')]",
+    "subnetRef": "[concat(variables('vnetID'), '/subnets/', 'sn-db-mh-shared')]",
     "storageAccountContainerName": "vhds",
     "nicName": "[concat('nic1-', parameters('database-server-id'), '-db-ws-pri')]"
   },
   "resources": [
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "stgdbwspri",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {
+      }
+    },
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "pip-sql1",
+      "location": "westus",
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      },
+      "tags": {
+        "displayName": "PublicIPAddress - SQL1"
+      }
+    },
+
+    {
       "name": "[variables('nicName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "westus",
       "apiVersion": "2017-06-01",
-      "dependsOn": [ ],
+      "dependsOn": [
+        "pip-sql1"
+      ],
       "tags": {
         "displayName": "[variables('nicName')]"
       },
@@ -68,19 +96,25 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('subnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'pip-sql1')]"
               }
+
             }
           }
         ]
       }
     },
+
     {
       "name": "[variables('databaseServerName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "westus",
       "apiVersion": "2017-03-30",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]",
+        "stgdbwspri"
       ],
       "tags": {
         "displayName": "[variables('databaseServerName')]"
@@ -121,7 +155,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "SetupSQLServerExtension",
+          "name": "config-app",
           "apiVersion": "2017-03-30",
           "location": "[resourceGroup().location]",
           "dependsOn": [
@@ -129,18 +163,19 @@
           ],
           "properties": {
             "publisher": "Microsoft.Compute",
-            "extension": "CustomScriptExtension",
-            "typeHandlerVersion": "1.8",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.9",
             "autoUpgradeMinorVersion": true,
             "settings": {
-                "fileUris": [
-                  "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1"
-                ],
-                "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File configure-sql-server.ps1"
-              }
+              "fileUris": [
+                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1"
+              ],
+              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File configure-sql-server.ps1"
             }
+          }
         }
       ]
-    }],
+    }
+  ],
   "outputs": {}
 }
