@@ -106,7 +106,6 @@
         ]
       }
     },
-
     {
       "name": "[variables('databaseServerName')]",
       "type": "Microsoft.Compute/virtualMachines",
@@ -176,6 +175,7 @@
         }
       ]
     }
+
   ],
   "outputs": {}
 }

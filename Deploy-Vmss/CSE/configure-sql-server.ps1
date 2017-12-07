@@ -10,6 +10,9 @@ Function Write-Log
    Add-content $Logfile -value $logstring
 }
 
-. .\configure-powershellget.ps1
+Write-Log("Starting configuration")
+
+. .\install-powershellget.ps1
+. .\install-sqlserverdsc.ps1
 
 Write-Log("Ran the config")
