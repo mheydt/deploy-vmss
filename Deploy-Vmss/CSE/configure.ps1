@@ -9,3 +9,4 @@ Write-Host "Installing and configuring IIS"
 
 Write-Host "Installing Web App with Octopus DSC"
 . .\install-web-app-with-octo-dsc.ps1
+ 

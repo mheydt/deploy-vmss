@@ -8,8 +8,16 @@ Function Write-Log
 
    $Logfile = "c:\install-sqlserverdsc.log"
    Add-content $Logfile -value $logstring
-}
+} 
 
-Write-Log("Installing SqlServerDSC")
-Find-Module -Name SqlServerDsc -Repository PSGallery | Install-Module
-Write-Log("Installed SqlServerDSC")
+try
+{
+	Write-Log("Installing SqlServerDSC")
+	Find-Module -Name SqlServerDsc -Repository PSGallery | Install-Module
+	Write-Log("Installed SqlServerDSC")
+}
+catch 
+{
+	Write-Log('Exception installing sqlserverdsc')
+	Write-Log($_)
+}
