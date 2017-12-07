@@ -12,7 +12,7 @@ try
 {
 	$storageContext = New-AzureStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
 	Get-AzureStorageBlobContent -Blob $blobName  -Container $containerName -Destination $destination -Context $storageContext
-	Mount-DiskImage -ImagePath d:\sqlserver.iso
+	Mount-DiskImage -ImagePath d:\sqlserver.iso 
 	Write-Log("c:\get-sqlservermedia.log", "Mounted sql server media")
 }
 catch
