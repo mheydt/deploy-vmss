@@ -38,8 +38,9 @@ Configuration SQLStandaloneDSC
         xSQLServerSetup 'InstallDefaultInstance'
         {
             InstanceName         = 'MSSQLSERVER'
-            Features             = 'SQL,AS'
+            Features             = 'SQLENGINE,AS'
             SQLSysAdminAccounts  = "wsadmin"
+            ASSysAdminAccounts   = "wsadmin"
             SourcePath           = 'f:\'
 
             DependsOn            = '[WindowsFeature]NetFramework35', '[WindowsFeature]NetFramework45'

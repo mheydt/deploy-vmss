@@ -168,8 +168,8 @@
             "settings": {
               "fileUris": [
                 "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1",
-                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/get-sqlservermedia.ps1",
-                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-sqlserverdsc.ps1"
+                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/SqlConfigurationData.ps1",
+                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/SqlStandaloneDSC.ps1"
               ],
               "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File configure-sql-server.ps1"
             }

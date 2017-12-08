@@ -45,7 +45,7 @@ try
 	Write-Log("c:\configure-sqlserver.log", "Installed SQL Server")
 
 	Write-Log("c:\configure-sqlserver.log", "Installing SSMS")
-	d:\SSMS-Setup-ENU.exe /install /quiet /norestart
+	Start-Process "d:\SSMS-Setup-ENU.exe /install /quiet /norestart /log d:\ssms-log.txt" -Wait
 	Write-Log("c:\configure-sqlserver.log", "Installed SSMS")
 
 	Write-Log("c:\configure-sqlserver.log", "Cleaning up")
@@ -53,6 +53,8 @@ try
 	Write-Log("c:\configure-sqlserver.log", "Cleaned up")
 	Remove-Item -Path $destinationSqlIso
 	Remove-Item -Path $destinationSSMS
+    Remove-Item -Path d:\log*.txt
+    Remove-Item -Path d:\ssms-*.txt
 
 	Write-Log("c:\configure-sqlserver.log", "All done!")
 }
