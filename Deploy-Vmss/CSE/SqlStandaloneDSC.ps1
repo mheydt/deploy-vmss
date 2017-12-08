@@ -45,6 +45,16 @@ Configuration SQLStandaloneDSC
 
             DependsOn            = '[WindowsFeature]NetFramework35', '[WindowsFeature]NetFramework45'
         }
-        #endregion Install SQL Server
+
+		xSqlServerFirewall 'InstallDefaultInstance'
+		{
+			Ensure               = 'Present'
+            SourcePath           = 'f:\'
+			DependsOn            = @("[xSqlServerSetup]InstallDefaultInstance")         
+			Features             = "SQLENGINE" 
+            InstanceName         = 'MSSQLSERVER'
+		}
+		
+		#endregion Install SQL Server
     }
 }

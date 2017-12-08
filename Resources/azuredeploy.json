@@ -25,19 +25,19 @@
     },
     "storageAccountName": {
       "type": "string",
-      "defaultValue": "dbstgmhshared2"
+      "defaultValue": "stgdbwspri"
     },
     "storageAccountResourceGroup": {
       "type": "string",
-      "defaultValue": "db2"
+      "defaultValue": "rg-db-ws-pri"
     },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "vnet-mh-shared"
+      "defaultValue": "vnet-ws-pri"
     },
     "virtualNetworkResourceGroup": {
       "type": "string",
-      "defaultValue": "rg-mh-shared"
+      "defaultValue": "rg-vnet-ws-pri"
     }},
   "variables": {
     "databaseServerName": "[concat(parameters('database-server-id'), '-db-ws-pri')]",
@@ -46,7 +46,7 @@
     "osDiskName": "osdisk1-sql-ws-pri",
     "vmSize": "Standard_D1_v2",
     "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "subnetRef": "[concat(variables('vnetID'), '/subnets/', 'sn-db-mh-shared')]",
+    "subnetRef": "[concat(variables('vnetID'), '/subnets/', 'sn-db-ws-pri')]",
     "storageAccountContainerName": "vhds",
     "nicName": "[concat('nic1-', parameters('database-server-id'), '-db-ws-pri')]"
   },
