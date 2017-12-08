@@ -168,7 +168,6 @@
             "settings": {
               "fileUris": [
                 "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/configure-sql-server.ps1",
-                "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-powershellget.ps1",
                 "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/get-sqlservermedia.ps1",
                 "https://raw.githubusercontent.com/mheydt/deploy-vmss/master/Deploy-Vmss/CSE/install-sqlserverdsc.ps1"
               ],

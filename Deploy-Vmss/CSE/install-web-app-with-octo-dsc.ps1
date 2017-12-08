@@ -2,7 +2,7 @@
 #
 # install_web_app_with_octo_dsc.ps1
 #
-Configuration SampleConfig
+Configuration WebAppConfig
 {
     param ($ApiKey, $OctopusServerUrl, $Environments, $Roles, $ServerPort)
 
@@ -35,6 +35,6 @@ Configuration SampleConfig
 
 SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10943
 
-Start-DscConfiguration .\SampleConfig -Verbose -wait
+Start-DscConfiguration .\WebAppConfig -Verbose -wait
 
 Test-DscConfiguration

@@ -29,11 +29,13 @@
     <None Include="old\azureprofile1.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSE\SqlConfigurationData.ps1" />
     <Compile Include="CSE\configure-sql-server.ps1" />
     <Compile Include="CSE\get-sqlservermedia.ps1" />
     <Compile Include="CSE\install-powershellget.ps1" />
     <Compile Include="CSE\install-sqlserverdsc.ps1" />
     <Compile Include="CSE\install-sqlserverwithdsc.ps1" />
+    <Compile Include="CSE\SqlStandaloneDSC.ps1" />
     <Compile Include="old\add-octoextension-to-vmss.ps1" />
     <Compile Include="old\add-vmssextension.ps1" />
     <Compile Include="old\apply-extensions.ps1" />

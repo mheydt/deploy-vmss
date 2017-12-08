@@ -14,6 +14,8 @@ try
 	Get-AzureStorageBlobContent -Blob $blobName  -Container $containerName -Destination $destination -Context $storageContext
 	Mount-DiskImage -ImagePath d:\sqlserver.iso 
 	Write-Log("c:\get-sqlservermedia.log", "Mounted sql server media")
+
+	$ISODrive = (Get-DiskImage -ImagePath "d:\sqlserver.iso" | Get-Volume).DriveLetter
 }
 catch
 {
