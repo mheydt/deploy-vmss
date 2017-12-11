@@ -59,7 +59,7 @@ Configuration SQLStandaloneDSC
             InstanceName         = 'MSSQLSERVER'
 		}
 
-        xSQLServerLogin 'LoginAccount'
+        xSQLServerLogin 'InstallDefaultInstance'
         {
             Ensure = 'Present'
             Name = 'wsapp'
