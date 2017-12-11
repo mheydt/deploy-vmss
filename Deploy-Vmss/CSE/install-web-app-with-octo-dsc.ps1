@@ -33,7 +33,7 @@ Configuration WebAppConfig
     }
 }
 
-SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://52.160.90.144/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10943
+SampleConfig -ApiKey "API-9WX6OWHFA66M6NAGOINAE5KMLP0" -OctopusServerUrl "https://104.42.28.177/" -Environments @("Dev") -Roles @("web-server") -ServerPort 10943
 
 Start-DscConfiguration .\WebAppConfig -Verbose -wait
 
