@@ -30,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSE\configure-jump-server.ps1" />
-    <Compile Include="CSE\SqlConfigurationData.ps1" />
+    <Compile Include="CSE\SqlConfigurationData.psd1" />
     <Compile Include="CSE\configure-sql-server.ps1" />
     <Compile Include="CSE\get-sqlservermedia.ps1" />
     <Compile Include="CSE\install-powershellget.ps1" />

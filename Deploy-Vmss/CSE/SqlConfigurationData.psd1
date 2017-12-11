@@ -1,5 +1,5 @@
 #
-# ConfigurationData.ps1
+# ConfigurationData.psd1
 #
 @{
     AllNodes = @(
