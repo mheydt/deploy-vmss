@@ -11,6 +11,13 @@ Function Write-Log
 
 Try
 {
+	Write-Log "Trusting PSGallery"
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+	Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+	Write-Log "Installing AzureRM"
+	Install-Module -Name AzureRM -Repository PSGallery
+
 	$storageAccountKey = "463znlo22viNBm3ACyTCeHaZJDqHkCY6SH9oLMIv3yVr/7RzXphZKS2KCZxJ4eLwQkWThK2wBwXo42pHHkNDdw=="
 	$storageAccountName = "stginstallerswspri"
 	$containerName = "sqlserver"
