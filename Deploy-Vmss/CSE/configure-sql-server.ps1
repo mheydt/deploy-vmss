@@ -4,22 +4,22 @@
 
 Function Write-Log
 {
-   Param ([string]$logfile, [string]$logstring)
+   Param ([string]$logstring)
 
-   Add-content $logfile -value $logstring
+   Add-Content -Path "c:\configure-sqlserver.log" -Value $logstring
 } 
 
-try
+Try
 {
-	Write-Log("c:\configure-sqlserver.log", "Trusting PSGallery")
+	Write-Log "Trusting PSGallery"
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 	Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
-	Write-Log("c:\configure-sqlserver.log", "Installing AzureRM")
+	Write-Log "Installing AzureRM"
 	Install-Module -Name AzureRM -Repository PSGallery
 	Install-Module -Name xSqlServer -Repository PSGallery
 
-	Write-Log("c:\configure-sqlserver.log", "Starting configuration")
+	Write-Log "Starting configuration"
 
 	$storageAccountKey = "463znlo22viNBm3ACyTCeHaZJDqHkCY6SH9oLMIv3yVr/7RzXphZKS2KCZxJ4eLwQkWThK2wBwXo42pHHkNDdw=="
 	$storageAccountName = "stginstallerswspri"
@@ -35,31 +35,31 @@ try
 	Mount-DiskImage -ImagePath d:\sqlserver.iso 
 	$sqlInstallDrive = (Get-DiskImage -ImagePath "d:\sqlserver.iso" | Get-Volume).DriveLetter
 
-	Write-Log("c:\configure-sqlserver.log", "Mounted sql server media")
+	Write-Log "Mounted sql server media"
 	
-	Write-Log("c:\configure-sqlserver.log", "Starting SQL Server Install")
+	Write-Log "Starting SQL Server Install"
 	. ./SqlStandaloneDSC
 	SqlStandaloneDSC
 	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait
 
-	Write-Log("c:\configure-sqlserver.log", "Installed SQL Server")
+	Write-Log "Installed SQL Server"
 
-	Write-Log("c:\configure-sqlserver.log", "Installing SSMS")
+	Write-Log "Installing SSMS"
 	Start-Process "d:\SSMS-Setup-ENU.exe /install /quiet /norestart /log d:\ssms-log.txt" -Wait
-	Write-Log("c:\configure-sqlserver.log", "Installed SSMS")
+	Write-Log "Installed SSMS"
 
-	Write-Log("c:\configure-sqlserver.log", "Cleaning up")
+	Write-Log "Cleaning up"
 	Dismount-DiskImage -ImagePath d:\sqlserver.iso
-	Write-Log("c:\configure-sqlserver.log", "Cleaned up")
+	Write-Log "Cleaned up"
 	Remove-Item -Path $destinationSqlIso
 	Remove-Item -Path $destinationSSMS
     Remove-Item -Path d:\log*.txt
     Remove-Item -Path d:\ssms-*.txt
 
-	Write-Log("c:\configure-sqlserver.log", "All done!")
+	Write-Log "All done!"
 }
-catch
+Catch
 {
-	Write-Log("c:\configure-sqlserver.log", "Exception")
-	Write-Log("c:\configure-sqlserver.log", $_)
+	Write-Log "Exception"
+	Write-Log $_.Exception.Message
 }
