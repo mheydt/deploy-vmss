@@ -39,8 +39,20 @@ Try
 	
 	Write-Log "Starting SQL Server Install"
 	. ./SqlStandaloneDSC
-	SqlStandaloneDSC
-	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait
+
+    $secpasswd = ConvertTo-SecureString "Workspace!DB!2017" -AsPlainText -Force
+    $loginCred = New-Object System.Management.Automation.PSCredential ("wsapp", $secpasswd)
+
+    $saUsername = "wsadmin"
+    $saPassword = "Workspace!DB!2017" | ConvertTo-SecureString -AsPlainText -Force
+    $saCreds = New-Object -TypeName pscredential -ArgumentList $saUsername, $saPassword
+
+    $saPwd = "Workspace!DB!2017" | ConvertTo-SecureString -AsPlainText -Force
+    $saCred = New-Object -TypeName pscredential -ArgumentList "sa", $saPwd
+     
+	SqlStandaloneDSC -ConfigurationData SQLConfigurationData.psd1 -LoginCredential $loginCred -SysAdminAccount $saCreds -saCredential $saCred
+	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait -Force
+
 
 	Write-Log "Installed SQL Server"
 

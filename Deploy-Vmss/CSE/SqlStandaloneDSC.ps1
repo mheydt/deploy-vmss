@@ -13,7 +13,9 @@ Configuration SQLStandaloneDSC
     [CmdletBinding()]
     param
     (
-        [pscredential]$SetupCredential
+        [pscredential]$SysAdminAccount,
+        [pscredential]$LoginCredential,
+        [pscredential]$saCredential
     )
 
     Import-DscResource -ModuleName xSQLServer
@@ -42,6 +44,8 @@ Configuration SQLStandaloneDSC
             SQLSysAdminAccounts  = "wsadmin"
             ASSysAdminAccounts   = "wsadmin"
             SourcePath           = 'f:\'
+            SecurityMode         = "SQL"
+            SAPWD                = $saCredential
 
             DependsOn            = '[WindowsFeature]NetFramework35', '[WindowsFeature]NetFramework45'
         }
@@ -54,6 +58,20 @@ Configuration SQLStandaloneDSC
 			Features             = "SQLENGINE" 
             InstanceName         = 'MSSQLSERVER'
 		}
+
+        xSQLServerLogin 'LoginAccount'
+        {
+            Ensure = 'Present'
+            Name = 'wsapp'
+            LoginType = 'SqlLogin'
+            SqlServer = "localhost"
+            SqlInstanceName = "MSSQLSERVER"
+            LoginCredential = $LoginCredential
+            LoginMustChangePassword = $false
+            LoginPasswordExpirationEnabled = $false
+            LoginPasswordPolicyEnforced = $false
+            PsDscRunAsCredential = $SysAdminAccount
+        }
 		
 		#endregion Install SQL Server
     }
