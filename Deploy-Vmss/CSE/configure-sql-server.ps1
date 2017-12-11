@@ -45,7 +45,7 @@ Try
 	Write-Log "Installed SQL Server"
 
 	Write-Log "Installing SSMS"
-	Start-Process "d:\SSMS-Setup-ENU.exe /install /quiet /norestart /log d:\ssms-log.txt" -Wait
+	Start-Process "d:\SSMS-Setup-ENU.exe" "/install /quiet /norestart /log d:\ssms-log.txt" -Wait
 	Write-Log "Installed SSMS"
 
 	Write-Log "Cleaning up"
