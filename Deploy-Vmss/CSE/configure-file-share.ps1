@@ -6,13 +6,12 @@ $fileShareName = "workspace-file-storage-pri"
 $symDirFolderName = "files"
 $filesMountDrive = "Z"
 
-$Logfile = "c:\script.log"
-
-Function LogWrite
+Function Write-Log
 {
-   Param ([string]$logstring)
+	Param ([string]$logstring)
 
-   Add-content $Logfile -value $logstring
+	$Logfile = "c:\config.log"
+	Add-content $Logfile -value $logstring
 }
 
 LogWrite("Starting map of AZF")
@@ -21,30 +20,31 @@ Try
 	$acctKey = ConvertTo-SecureString -String $key -AsPlainText -Force
 	$credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\$($stgAcctName)", $acctKey
 
-	LogWrite("Mapping drive")
-	LogWrite($filesMountDrive)
-	LogWrite("\\$($stgAcctName).file.core.windows.net\$($fileShareName)")
+	Write-Log("Mapping drive")
+	Write-Log($filesMountDrive)
+	Write-Log("\\$($stgAcctName).file.core.windows.net\$($fileShareName)")
     Write-Output($filesMountDrive)
 	New-PSDrive -Name $filesMountDrive -PSProvider FileSystem -Root "\\$($stgAcctName).file.core.windows.net\$($fileShareName)" -Credential $credential -Persist -Scope Global
     Write-Output("mapped drive")
-	LogWrite("Mapped drive")
+	Write-Log("Mapped drive")
 
     Write-Output("Creating sym link")
-    LogWrite("Creating sym link")
+    Write-Log("Creating sym link")
 	New-Item $symDirPath -type directory -Force
     Write-Output("Part 2")
 	New-Item -ItemType SymbolicLink -Path "$($symDirPath)\$($symDirFolderName)" -Value "$($filesMountDrive):"
-	LogWrite("Created sym link")
+	Write-Log("Created sym link")
     Write-Output("created sym link")
 
     Write-Output("storing credentials")
-    LogWrite("storing credentials")
+    Write-Log("storing credentials")
     cmdkey /add:$stgAcctName.file.core.windows.net /user:AZURE\$stgAcctName /pass:$key
     Write-Output("stored credentials")
-    LogWrite("stored credentials")
+    Write-Log("stored credentials")
 }
 Catch
 {
 	LogWrite($_.Exception.Message)
 }
+Write-Log('Finished AZF config')
 

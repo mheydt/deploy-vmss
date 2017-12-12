@@ -26,10 +26,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="old\azureprofile1.json" />
+    <None Include="azureprofile1.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSE\configure-jump-server.ps1" />
+    <Compile Include="CSE\OctopusServerDSC.ps1" />
     <Compile Include="CSE\SqlConfigurationData.psd1" />
     <Compile Include="CSE\configure-sql-server.ps1" />
     <Compile Include="CSE\get-sqlservermedia.ps1" />
@@ -43,7 +44,7 @@
     <Compile Include="old\create-ssc-in-kv.ps1" />
     <Compile Include="old\add-certtovm.ps1" />
     <Compile Include="CSE\configure-file-share.ps1" />
-    <Compile Include="CSE\configure.ps1" />
+    <Compile Include="CSE\configure-web-server.ps1" />
     <Compile Include="CSE\install-and-configure-iis.ps1" />
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
     <Compile Include="CSE\install-web-app-with-octo-dsc.ps1" />
