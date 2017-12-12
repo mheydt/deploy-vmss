@@ -6,7 +6,7 @@ Function Write-Log
 {
    Param ([string]$logstring)
 
-   Add-Content -Path "c:\configure-sqlserver.log" -Value $logstring
+   Add-Content -Path "c:\configure.log" -Value $logstring
 } 
 
 Try
@@ -35,7 +35,7 @@ Try
 	Mount-DiskImage -ImagePath d:\sqlserver.iso 
 	$sqlInstallDrive = (Get-DiskImage -ImagePath "d:\sqlserver.iso" | Get-Volume).DriveLetter
 
-	Write-Log "Mounted sql server media"
+	Write-Log "Mounted sql server media on " $sqlInstallDrive
 	
 	Write-Log "Starting SQL Server Install"
 	. ./SqlStandaloneDSC
@@ -52,7 +52,6 @@ Try
      
 	SqlStandaloneDSC -ConfigurationData SQLConfigurationData.psd1 -LoginCredential $loginCred -SysAdminAccount $saCreds -saCredential $saCred
 	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait -Force
-
 
 	Write-Log "Installed SQL Server"
 
