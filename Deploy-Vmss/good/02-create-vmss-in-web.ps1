@@ -24,6 +24,7 @@ $adminPassword = "Workspace!cc"
 $vmssComputerNamePrefix = "vmssvm"
 
 $vmScaleSetName = "vmss-web-ws-pri"
+$skuName = "Standard_DS1_v2"
 
 $certificateUrl = "https://kv-svc-ws-pri.vault.azure.net/secrets/vmssweb/074f55d2dca84489b021291e8e3e64d2"
 $certStore = "MyCerts"
@@ -38,7 +39,7 @@ Get-AzureRmSubscription –SubscriptionName $subscriptionName | Select-AzureRmSubs
 Write-Host "Set Azure Subscription for session complete"  -ForegroundColor Green
 
 Write-Output "Creating vmss config"
-$vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity $numberOfInstances -SkuName Standard_B1ms -UpgradePolicyMode Automatic -ErrorAction Stop
+$vmssConfig = New-AzureRmVmssConfig -Location $location -SkuCapacity $numberOfInstances -SkuName $skuName -UpgradePolicyMode Automatic -ErrorAction Stop
 Write-Output "Created vmss config"
 
 Write-Output "Getting key vault"

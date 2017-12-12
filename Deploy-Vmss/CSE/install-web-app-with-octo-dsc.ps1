@@ -42,7 +42,7 @@ Configuration WebAppConfig
 }
 
 Write-Log('Staring DSC config of octopus app')
-SampleConfig -ApiKey "API-GBHVBXFZHQEORM3Z8LCYKPEAIK" -OctopusServerUrl "https://pip-octo-wspdpr.westus.cloudapp.azure.com" -Environments @("Dev") -Roles @("web-server") -ServerPort 10943
+WebAppConfig -ApiKey "API-GBHVBXFZHQEORM3Z8LCYKPEAIK" -OctopusServerUrl "https://pip-octo-wspdpr.westus.cloudapp.azure.com" -Environments @("Dev") -Roles @("Web-VMSS") -ServerPort 10943
 
 Write-Log('Built config - starting configuration')
 Start-DscConfiguration .\WebAppConfig -Verbose -wait

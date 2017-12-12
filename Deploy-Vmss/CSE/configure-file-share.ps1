@@ -14,7 +14,7 @@ Function Write-Log
 	Add-content $Logfile -value $logstring
 }
 
-LogWrite("Starting map of AZF")
+Wite-Log("Starting map of AZF")
 Try
 {
 	$acctKey = ConvertTo-SecureString -String $key -AsPlainText -Force
@@ -44,7 +44,7 @@ Try
 }
 Catch
 {
-	LogWrite($_.Exception.Message)
+	Write-Log($_.Exception.Message)
 }
 Write-Log('Finished AZF config')
 

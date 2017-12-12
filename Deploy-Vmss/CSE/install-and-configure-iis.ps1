@@ -14,7 +14,7 @@ Write-Log("Starting installation of IIS")
 
 Write-Log('Creating local use to access AZF')
 $username = "stgfiles1wspri"
-$password = ConvertTo-SecureString "5NZYMJoyyrQLoEwcxGBlgDBdLMrnWsCx4BEwfsSdkM33QzgsmuXadz5gr3j8PIeBfeg1E9XqD473j9Nk2QYsRg=="
+$password = ConvertTo-SecureString -String "5NZYMJoyyrQLoEwcxGBlgDBdLMrnWsCx4BEwfsSdkM33QzgsmuXadz5gr3j8PIeBfeg1E9XqD473j9Nk2QYsRg==" -AsPlainText -Force
 New-LocalUser -Name $username -Password $password -PasswordNeverExpires -UserMayNotChangePassword -AccountNeverExpires
 Write-Log('User created')
 
