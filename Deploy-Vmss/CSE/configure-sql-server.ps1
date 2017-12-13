@@ -73,17 +73,26 @@ Try
     Remove-Item -Path d:\log*.txt
     Remove-Item -Path d:\ssms-*.txt
 
-	Write-Log "Attaching database"
-	$ss = New-Object "Microsoft.SqlServer.Management.Smo.Server" "localhost"
+    Write-Log "Attaching database"
+    $ss = New-Object "Microsoft.SqlServer.Management.Smo.Server" "localhost"
+    $ss.ConnectionContext.LoginSecure = $false
+    $ss.ConnectionContext.Login = "sa"
+    $ss.ConnectionContext.Password = "Workspace!DB!2017"
+    Write-Log $ss.Information.Version
+
 	$mdf_file = "e:\AdventureWorks2012_Data.mdf"
 	$mdfs = $ss.EnumDetachedDatabaseFiles($mdf_file)
 	$ldfs = $ss.EnumDetachedLogFiles($mdf_file)
 
 	$files = New-Object System.Collections.Specialized.StringCollection
+    Write-Log "Enumerating mdfs"
 	ForEach-Object -InputObject $mdfs {
+        Write-Log $_
 		$files.Add($_)
 	}
+    Write-Log "Enumerating ldfs"
 	ForEach-Object -InputObject $ldfs {
+        Write-Log $_
 		$files.Add($_)
 	}
 	$ss.AttachDatabase("AdventureWorks", $files)
