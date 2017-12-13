@@ -24,8 +24,8 @@ Try
 
 	Write-Log "Starting configuration"
 
-	$storageAccountKey = "463znlo22viNBm3ACyTCeHaZJDqHkCY6SH9oLMIv3yVr/7RzXphZKS2KCZxJ4eLwQkWThK2wBwXo42pHHkNDdw=="
-	$storageAccountName = "stginstallerswspri"
+	$storageAccountKey = "KRihdvk4dDFQkOloPqpk0P5DtnpNOr13Hh9TfBywjyjcE7wSgLSgNud8JnEzTZI4ZAbKnytoFiLfI0kJZ4z4gQ=="
+	$storageAccountName = "stginstallerswspdpr"
 	$containerName = "sqlserver"
 	$sqlInstallBlobName = "en_sql_server_2016_enterprise_with_service_pack_1_x64_dvd_9542382.iso"
 	$ssmsInstallBlobName = "SSMS-Setup-ENU.exe"
@@ -38,7 +38,7 @@ Try
 	Mount-DiskImage -ImagePath d:\sqlserver.iso 
 	$sqlInstallDrive = (Get-DiskImage -ImagePath "d:\sqlserver.iso" | Get-Volume).DriveLetter
 
-	Write-Log "Mounted sql server media on " $sqlInstallDrive
+	Write-Log "Mounted sql server media on " + $sqlInstallDrive
 	
     $secpasswd = ConvertTo-SecureString "Workspace!DB!2017" -AsPlainText -Force
     $loginCred = New-Object System.Management.Automation.PSCredential ("wsapp", $secpasswd)
