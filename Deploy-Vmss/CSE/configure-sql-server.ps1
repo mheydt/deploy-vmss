@@ -4,9 +4,10 @@
 
 Function Write-Log
 {
-   Param ([string]$logstring)
+    Param ([string]$logstring)
 
-   Add-Content -Path "c:\configure.log" -Value $logstring
+    Add-Content -Path "c:\configure.log" -Value $logstring
+	Write-Host $logstring
 } 
 
 Try
@@ -14,10 +15,12 @@ Try
 	Write-Log "Trusting PSGallery"
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 	Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-
-	Write-Log "Installing AzureRM"
+	Write-Log "Installing AzureRM, xSqlServer, and SqlServer"
 	Install-Module -Name AzureRM -Repository PSGallery
 	Install-Module -Name xSqlServer -Repository PSGallery
+	Install-Module -Name SqlServer -Repository PSGallery
+
+	Import-Module SqlServer
 
 	Write-Log "Starting configuration"
 
@@ -37,9 +40,6 @@ Try
 
 	Write-Log "Mounted sql server media on " $sqlInstallDrive
 	
-	Write-Log "Starting SQL Server Install"
-	. ./SqlStandaloneDSC
-
     $secpasswd = ConvertTo-SecureString "Workspace!DB!2017" -AsPlainText -Force
     $loginCred = New-Object System.Management.Automation.PSCredential ("wsapp", $secpasswd)
 
@@ -50,7 +50,12 @@ Try
     $saPwd = "Workspace!DB!2017" | ConvertTo-SecureString -AsPlainText -Force
     $saCred = New-Object -TypeName pscredential -ArgumentList "sa", $saPwd
      
-	SqlStandaloneDSC -ConfigurationData SQLConfigurationData.psd1 -LoginCredential $loginCred -SysAdminAccount $saCreds -saCredential $saCred
+	Write-Log "Starting SQL Server Install"
+	. ./SqlStandaloneDSC
+
+	$dataDisk = (Get-Volume -FileSystemLabel WorkspaceDB).DriveLetter
+
+	SqlStandaloneDSC -ConfigurationData SQLConfigurationData.psd1 -LoginCredential $loginCred -SysAdminAccount $saCreds -saCredential $saCred -installDisk $sqlInstallDrive
 	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait -Force
 
 	Write-Log "Installed SQL Server"
@@ -66,6 +71,21 @@ Try
 	Remove-Item -Path $destinationSSMS
     Remove-Item -Path d:\log*.txt
     Remove-Item -Path d:\ssms-*.txt
+
+	Write-Log "Attaching database"
+	$ss = New-Object "Microsoft.SqlServer.Management.Smo.Server" "localhost"
+	$mdf_file = "e:\AdventureWorks2012_Data.mdf"
+	$mdfs = $ss.EnumDetachedDatabaseFiles($mdf_file)
+	$ldfs = $ss.EnumDetachedLogFiles($mdf_file)
+
+	$files = New-Object System.Collections.Specialized.StringCollection
+	ForEach-Object -InputObject $mdfs {
+		$files.Add($_)
+	}
+	ForEach-Object -InputObject $ldfs {
+		$files.Add($_)
+	}
+	$ss.AttachDatabase("AdventureWorks", $files)
 
 	Write-Log "All done!"
 }

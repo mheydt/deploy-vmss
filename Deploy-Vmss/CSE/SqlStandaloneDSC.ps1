@@ -15,7 +15,8 @@ Configuration SQLStandaloneDSC
     (
         [pscredential]$SysAdminAccount,
         [pscredential]$LoginCredential,
-        [pscredential]$saCredential
+        [pscredential]$saCredential,
+		[string]$installDisk
     )
 
     Import-DscResource -ModuleName xSQLServer
@@ -43,7 +44,7 @@ Configuration SQLStandaloneDSC
             Features             = 'SQLENGINE,AS'
             SQLSysAdminAccounts  = "wsadmin"
             ASSysAdminAccounts   = "wsadmin"
-            SourcePath           = 'f:\'
+            SourcePath           = $installDisk + ":\"
             SecurityMode         = "SQL"
             SAPWD                = $saCredential
 
@@ -53,7 +54,7 @@ Configuration SQLStandaloneDSC
 		xSqlServerFirewall 'InstallDefaultInstance'
 		{
 			Ensure               = 'Present'
-            SourcePath           = 'f:\'
+            SourcePath           = $installDisk + ":\"
 			DependsOn            = @("[xSqlServerSetup]InstallDefaultInstance")         
 			Features             = "SQLENGINE" 
             InstanceName         = 'MSSQLSERVER'
