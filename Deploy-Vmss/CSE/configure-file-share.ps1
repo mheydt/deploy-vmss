@@ -1,8 +1,8 @@
-$key = "5NZYMJoyyrQLoEwcxGBlgDBdLMrnWsCx4BEwfsSdkM33QzgsmuXadz5gr3j8PIeBfeg1E9XqD473j9Nk2QYsRg=="
+$key = "L0kVane0WMkH+6PP9rpEcoUkkFCT75bJBBNtuKayyFWS+DOtARL9bofx8fBKBZ9faHFpqTT5PxTH+PowJte7rQ=="
 $shareName = "workspace-file-storage-pri"
 $symDirPath = "c:\server\workspace\client"
-$stgAcctName = "stgfiles1wspri"
-$fileShareName = "workspace-file-storage-pri"
+$stgAcctName = "stgfiles1wspdpr"
+$fileShareName = "workspace-file-storage"
 $symDirFolderName = "files"
 $filesMountDrive = "Z"
 
@@ -12,6 +12,7 @@ Function Write-Log
 
 	$Logfile = "c:\config.log"
 	Add-content $Logfile -value $logstring
+	Write-Hose $logstring
 }
 
 Wite-Log("Starting map of AZF")
