@@ -94,4 +94,5 @@ Catch
 {
 	Write-Log "Exception"
 	Write-Log $_.Exception.Message
+	Write-Log $_.Exception.InnerException
 }
