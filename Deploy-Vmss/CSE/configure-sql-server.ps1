@@ -54,6 +54,7 @@ Try
 	. ./SqlStandaloneDSC
 
 	$dataDisk = (Get-Volume -FileSystemLabel WorkspaceDB).DriveLetter
+	Write-Log "The data disk is " + $dataDisk
 
 	SqlStandaloneDSC -ConfigurationData SQLConfigurationData.psd1 -LoginCredential $loginCred -SysAdminAccount $saCreds -saCredential $saCred -installDisk $sqlInstallDrive
 	Start-DscConfiguration .\SqlStandaloneDSC -Verbose -wait -Force
