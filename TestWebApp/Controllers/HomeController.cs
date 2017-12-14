@@ -15,6 +15,7 @@ namespace TestWebApp.Controllers
     {
         public FileViewModel[] ViaSymlink { get; set; }
         public FileViewModel[] ViaAPI { get; set; }
+        public Product[] Products { get; internal set; }
 
         public FilesViewModel()
         {
@@ -77,6 +78,11 @@ namespace TestWebApp.Controllers
 
             ViewBag.Message1 = msg1;
             ViewBag.Message2 = msg2;
+
+            var ef = new AdventureWorksEntities();
+            var q = ef.Products.Take(10);
+
+            vm.Products = q.ToArray();
 
             return View(vm);
         }

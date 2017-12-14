@@ -51,6 +51,14 @@
         }
     </div>
 </div>
+<div class="row">
+    @{ 
+        foreach (var product in @Model.Products)
+        {
+            <div>@product.Name</div>
+        }
+    }
+</div>
 <br/>
 
 <script type="text/javascript">
