@@ -12,7 +12,7 @@ Function Write-Log
 
 	$Logfile = "c:\config.log"
 	Add-content $Logfile -value $logstring
-	Write-Hose $logstring
+	Write-Host $logstring
 }
 
 Wite-Log("Starting map of AZF")

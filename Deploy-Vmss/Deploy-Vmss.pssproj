@@ -41,16 +41,13 @@
     <Compile Include="old\add-octoextension-to-vmss.ps1" />
     <Compile Include="old\add-vmssextension.ps1" />
     <Compile Include="old\apply-extensions.ps1" />
-    <Compile Include="old\create-ssc-in-kv.ps1" />
     <Compile Include="old\add-certtovm.ps1" />
     <Compile Include="CSE\configure-file-share.ps1" />
     <Compile Include="CSE\configure-web-server.ps1" />
     <Compile Include="CSE\install-and-configure-iis.ps1" />
     <Compile Include="CSE\Install-OctopusDSC.ps1" />
     <Compile Include="CSE\install-web-app-with-octo-dsc.ps1" />
-    <Compile Include="good\02-create-vmss-in-web.ps1" />
     <Compile Include="old\create-vmssconfig.ps1" />
-    <Compile Include="good\01-deploy-vmss-web-lb-config.ps1" />
     <Compile Include="old\Deploy-Vmss.ps1" />
     <Compile Include="old\get-vms.ps1" />
     <Compile Include="old\get-vmss.ps1" />
