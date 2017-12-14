@@ -97,6 +97,30 @@ Try
 	}
 	$ss.AttachDatabase("AdventureWorks", $files)
 
+	$db = $ss.Databases['AdventureWorks']
+    Write-Log $db
+    Write-log $db.Users
+
+    $wsAppLogin = $ss.Logins['wsapp']
+    Write-Log $wsAppLogin
+
+	Try
+	{
+		$dbusername = 'wsapp'
+		$dbuser = New-Object "Microsoft.SqlServer.Management.Smo.User" $db, $dbusername
+		$dbuser.Login = 'wsapp'
+		$dbuser.Create()
+
+		$db.Roles["db_datareader"].AddMember($dbuser.Name)
+		$db.Roles["db_datawriter"].AddMember($dbuser.Name)
+	}
+	Catch
+	{
+		Write-Log "DB Exception"
+		Write-Log $_.Exception.Message
+		Write-Log $_.Exception.InnerException
+	}
+
 	Write-Log "All done!"
 }
 Catch

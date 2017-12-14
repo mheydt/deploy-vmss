@@ -47,7 +47,7 @@ namespace TestWebApp.Controllers
                 var cs = ConfigurationManager.AppSettings["StorageConnectionString"];
                 var account = CloudStorageAccount.Parse(cs);
                 var fileClient = account.CreateCloudFileClient();
-                var share = fileClient.GetShareReference("workspace-file-storage-pri");
+                var share = fileClient.GetShareReference("workspace-file-storage");
                 if (share.Exists())
                 {
                     var rootDir = share.GetRootDirectoryReference();
