@@ -11,6 +11,7 @@ Function Write-Log
 
 Try
 {
+	<#
 	Write-Log "Trusting PSGallery"
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 	Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
@@ -39,7 +40,7 @@ Try
 	Remove-Item -Path $destinationSSMS
     Remove-Item -Path d:\log*.txt
     Remove-Item -Path d:\ssms-*.txt
-
+	#>
 	Write-Log "All done!"
 }
 Catch
