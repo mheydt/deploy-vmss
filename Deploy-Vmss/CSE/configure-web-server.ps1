@@ -1,3 +1,6 @@
+param(
+	[string]$octoUrl
+)
 Function Write-Log
 {
 	Param ([string]$logstring)
