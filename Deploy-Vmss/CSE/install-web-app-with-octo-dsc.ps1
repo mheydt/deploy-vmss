@@ -2,6 +2,10 @@
 #
 # install_web_app_with_octo_dsc.ps1
 #
+param(
+	[string]$octoUrl,
+	[string]$octoApiKey
+)
 Function Write-Log
 {
 	Param ([string]$logstring)
@@ -42,7 +46,7 @@ Configuration WebAppConfig
 }
 
 Write-Log('Staring DSC config of octopus app')
-WebAppConfig -ApiKey "API-SFVPQ7CI5DELMEXG0Y3XZKLE8II" -OctopusServerUrl "https://pip-octo-wspdpr.westus.cloudapp.azure.com" -Environments @("Dev") -Roles @("Web-VMSS") -ServerPort 10943
+WebAppConfig -ApiKey $octoApiKey -OctopusServerUrl $octoUrl -Environments @("Dev") -Roles @("Web-VMSS") -ServerPort 10943
 
 Write-Log('Built config - starting configuration')
 Start-DscConfiguration .\WebAppConfig -Verbose -wait

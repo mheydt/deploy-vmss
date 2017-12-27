@@ -1,5 +1,7 @@
 param(
-	[string]$octoUrl
+	[string]$octoUrl,
+	[string]$octoApiKey
+
 )
 Function Write-Log
 {
@@ -23,6 +25,6 @@ Write-Log("Configuring file shares")
 . .\configure-file-share.ps1
 
 Write-Log("Installing Web App with Octopus DSC")
-. .\install-web-app-with-octo-dsc.ps1
+. .\install-web-app-with-octo-dsc.ps1 -octoUrl $octoUrl -octoApiKey $octoApiKey
 
 Write-Log("All done configuration!")
