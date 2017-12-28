@@ -11,6 +11,9 @@ Function Write-Log
 	Add-content $Logfile -value $logstring
 }
 
+Write-Log "octoUrl: " $octoUrl
+Write-Log "octoApiKey: " $octoApiKey
+
 Write-Log "Trusting PSGallery"
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted

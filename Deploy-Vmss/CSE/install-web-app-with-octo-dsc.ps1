@@ -6,6 +6,7 @@ param(
 	[string]$octoUrl,
 	[string]$octoApiKey
 )
+
 Function Write-Log
 {
 	Param ([string]$logstring)
@@ -46,6 +47,9 @@ Configuration WebAppConfig
 }
 
 Write-Log('Staring DSC config of octopus app')
+Write-Log "octoUrl: " $octoUrl
+Write-Log "octoApiKey: " $octoApiKey
+
 WebAppConfig -ApiKey $octoApiKey -OctopusServerUrl $octoUrl -Environments @("Dev") -Roles @("Web-VMSS") -ServerPort 10943
 
 Write-Log('Built config - starting configuration')
