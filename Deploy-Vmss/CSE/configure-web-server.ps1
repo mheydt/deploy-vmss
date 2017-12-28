@@ -9,11 +9,12 @@ Function Write-Log
 
 	$Logfile = "c:\config.log"
 	Add-content $Logfile -value $logstring
+	Write-Host $logstring
 }
 
 Write-Log "In config"
-Write-Log "octoUrl: " $octoUrl
-Write-Log "octoApiKey: " $octoApiKey
+Write-Log $("octoUrl: " + $octoUrl)
+Write-Log $("octoApiKey: " + $octoApiKey)
 
 Write-Log "Trusting PSGallery"
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force

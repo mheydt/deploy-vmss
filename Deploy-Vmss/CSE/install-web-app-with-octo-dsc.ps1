@@ -6,9 +6,6 @@ param(
 	[string]$octoUrl,
 	[string]$octoApiKey
 )
-Write-Log "In configure web app"
-Write-Log "octoUrl: " $octoUrl
-Write-Log "octoApiKey: " $octoApiKey
 
 Function Write-Log
 {
@@ -16,6 +13,7 @@ Function Write-Log
 
 	$Logfile = "c:\config.log"
 	Add-content $Logfile -value $logstring
+	Write-Host $logstring
 }
 
 Configuration WebAppConfig
@@ -49,14 +47,13 @@ Configuration WebAppConfig
     }
 }
 
+Write-Log "In configure web app"
+Write-Log $("octoUrl: " + $octoUrl)
+Write-Log $("octoApiKey: " + $octoApiKey)
+
 Write-Log('Staring DSC config of octopus app')
-Write-Log "octoUrl: " $octoUrl
-Write-Log "octoApiKey: " $octoApiKey
 
 WebAppConfig -ApiKey $octoApiKey -OctopusServerUrl $octoUrl -Environments @("Dev") -Roles @("Web-VMSS") -ServerPort 10943
 
 Write-Log('Built config - starting configuration')
 Start-DscConfiguration .\WebAppConfig -Verbose -wait
-
-Write-Log('Completed web app installation')
-#Test-DscConfiguration
