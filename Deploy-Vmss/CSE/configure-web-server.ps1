@@ -1,8 +1,8 @@
 param(
 	[string]$octoUrl,
 	[string]$octoApiKey
-
 )
+
 Function Write-Log
 {
 	Param ([string]$logstring)
@@ -11,6 +11,7 @@ Function Write-Log
 	Add-content $Logfile -value $logstring
 }
 
+Write-Log "In config"
 Write-Log "octoUrl: " $octoUrl
 Write-Log "octoApiKey: " $octoApiKey
 

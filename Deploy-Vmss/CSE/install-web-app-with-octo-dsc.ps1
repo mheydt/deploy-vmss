@@ -6,6 +6,9 @@ param(
 	[string]$octoUrl,
 	[string]$octoApiKey
 )
+Write-Log "In configure web app"
+Write-Log "octoUrl: " $octoUrl
+Write-Log "octoApiKey: " $octoApiKey
 
 Function Write-Log
 {
